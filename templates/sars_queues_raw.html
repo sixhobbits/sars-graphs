@@ -1,0 +1,12 @@
+<html>
+	<head>
+		<title>SARS Queue | by @sixhobbits</title>
+	</head>
+	<body>
+		<h1>SARS Queue: Cape Town</h1>
+		Time : Peple in Queue</br>
+		{% for line in data %}
+			{{line[0]}}: <b>{{line[1]}}</b> </br>
+		{% endfor %}
+	</body>
+</html>
