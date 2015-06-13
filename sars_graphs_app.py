@@ -1,5 +1,8 @@
 from datetime import datetime
 from dateutil.parser import parse
+
+import os
+
 from flask import Flask
 from flask import render_template
 
@@ -9,6 +12,7 @@ app = Flask(__name__)
 
 
 @app.route('/')
+@app.route("/hello", methods=['GET'])
 def show_stats():
     with open(filenames.SARS_QUEUE_STATS) as f:
         #  reverse file for most recent dates at end of file first
@@ -23,4 +27,6 @@ def show_stats():
 
 
 if __name__ == '__main__':
-    app.run()
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
+
