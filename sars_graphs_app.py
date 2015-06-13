@@ -16,13 +16,13 @@ app = Flask(__name__)
 def show_stats():
     with open(filenames.SARS_QUEUE_STATS) as f:
         #  reverse file for most recent dates at end of file first
-        raw = f.read().strip().split("\n")[::-1]
+        raw = f.read().strip().split("\n")
+        raw = [-300:]
         data = []
         for line in raw:
             s_date, people = line.split(", ")
-            # date = datetime.strftime(parse(s_date), '%d %B %Y @ %H:%M')
-            print(people)
-            data.append({'date': s_date[:10], 'people': int(people)})
+            date = datetime.strftime(parse(s_date), '%d %B @ %H:%M')
+            data.append({'date': date, 'people': int(people)})
         return render_template("queues.html", data=data)
 
 
