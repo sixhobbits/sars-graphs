@@ -1,60 +1,33 @@
- <html>
- 	<head>
- 		<title>Tax Chart</title>
- 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
- 		<script type="text/javascript">
- 		google.load('visualization', '1', {packages: ['corechart', 'bar']});
-		google.setOnLoadCallback(drawColColors, "6 June", "r");
-
-function get_array() {
-
-	return [
-        [{v: [8, 0, 0], f: '8 am'}, 1],
-        [{v: [8, 0, 5], f: '9:05 am'}, 2],
-        [{v: [8, 1, 0], f:''}, 3],
-        [{v: [8, 1, 5], f: '11 am'}, 4],
-        [{v: [8, 2, 0], f: '12 pm'}, 5],
-        [{v: [8, 2, 5], f: '1 pm'}, 6],
-        [{v: [8, 25, 0], f: '2 pm'}, 7],
-        [{v: [8, 20, 5], f: '3 pm'}, 8],
-      ];
-}
-
-function drawColColors(date, r) {
-      var data = new google.visualization.DataTable();
-      data.addColumn('timeofday', 'TimeStamp');
-      data.addColumn('number', 'People in Queue');
-
-      var rows = get_array();
-
-      data.addRows(rows);
-
-      var options = {
-        title: date,
-        colors: ['#9575cd', '#33ac71'],
-        hAxis: {
-          title: 'TimeStamp',
-          format: 'hh:mm',
-          viewWindow: {
-            min: [7, 0, 0],
-            max: [16, 00, 0]
-          },
-          bar : {
-          	groupWidth: 300
-          }
-        },
-        vAxis: {
-          title: 'People'
-        }
-      };
-
-      var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-      chart.draw(data, options);
+<!DOCTYPE HTML>
+<html>
+<head>
+ <script type="text/javascript" src="/static/canvasjs.min.js" defer></script>
+<script type="text/javascript">
+window.onload = function () {
+  var chart = new CanvasJS.Chart("chartContainer", {
+    theme: "theme2",//theme1
+    title:{
+      text: "Basic Column Chart - CanvasJS"              
+    },
+    animationEnabled: false,   // change to true
+    data: [              
+    {
+      // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+      type: "column",
+      dataPoints: [
+        {% for tuple in data %}            
+          { label: "{{tuple.date}}",  y: {{tuple.people}} },
+        {% endfor %}
+        { label: 'a', y: 30}
+      ]
     }
-    </script>
-	</head>
-	<body>
-  		<div id="chart_div"><div>	
-  	</body>
+    ]
+  });
+  chart.render();
+}
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+</body>
 </html>
-

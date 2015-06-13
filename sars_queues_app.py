@@ -15,10 +15,11 @@ def show_stats():
         raw = f.read().strip().split("\n")[::-1]
         data = []
         for line in raw:
-            s_date, people = line.split(",")
-            date = datetime.strftime(parse(s_date), '%d %B %Y @ %H:%M')
-            data.append((date, people))
-        return render_template("sars_queues_raw.html", data=data)
+            s_date, people = line.split(", ")
+            # date = datetime.strftime(parse(s_date), '%d %B %Y @ %H:%M')
+            print(people)
+            data.append({'date': s_date[:10], 'people': int(people)})
+        return render_template("queues.html", data=data)
 
 
 if __name__ == '__main__':
