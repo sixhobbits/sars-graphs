@@ -1,24 +1,24 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+  <title>SARS Queue Graphs | Gareth Dwyer</title>
  <script type="text/javascript" src="/static/canvasjs.min.js" defer></script>
 <script type="text/javascript">
 window.onload = function () {
   var chart = new CanvasJS.Chart("chartContainer", {
-    theme: "theme2",//theme1
+    theme: "theme2",
     title:{
-      text: "Basic Column Chart - CanvasJS"              
+      text: "Recent Queue lengths"              
     },
-    animationEnabled: false,   // change to true
+    animationEnabled: true,
     data: [              
     {
-      // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
       type: "column",
       dataPoints: [
         {% for tuple in data %}            
-          { label: "{{tuple.date}}",  y: {{tuple.people}} },
+          { label: "{{tuple.date}}",  y: {{tuple.people}} }
+          {% if not loop.last %} , {% endif %}
         {% endfor %}
-        { label: 'a', y: 30}
       ]
     }
     ]
@@ -28,6 +28,8 @@ window.onload = function () {
 </script>
 </head>
 <body>
+<h1>Recent Queue lengths at SARS, Cape Town</h1>
+<p>Mouse over a bar to view exact time and length</p>
 <div id="chartContainer" style="height: 300px; width: 100%;"></div>
 </body>
 </html>
