@@ -1,39 +1,47 @@
 <!DOCTYPE HTML>
 <html>
-<head>
-  <title>SARS Queue Graphs | Gareth Dwyer</title>
- <script type="text/javascript" src="/static/canvasjs.min.js" defer></script>
-<script type="text/javascript">
-window.onload = function () {
-  var chart = new CanvasJS.Chart("chartContainer", {
-    theme: "theme2",
-    title:{
-      text: "Recent Queue lengths"              
-    },
-    animationEnabled: true,
-    data: [              
-    {
-      type: "column",
-      dataPoints: [
-        {% for tuple in data %}            
-          { label: "{{tuple.date}}",  y: {{tuple.people}} }
-          {% if not loop.last %} , {% endif %}
-        {% endfor %}
-      ]
+  <head>
+    <title>SARS Queue Graphs | Gareth Dwyer</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script type="text/javascript" src="/static/canvasjs.min.js" defer></script>
+    <script type="text/javascript">
+    window.onload = function () {
+      var chart = new CanvasJS.Chart("chartContainer", {
+        theme: "theme2",
+        title:{
+          text: "Recent Queue lengths"              
+        },
+        animationEnabled: true,
+        data: [              
+        {
+          type: "column",
+          dataPoints: [
+            {% for tuple in data %}            
+              { label: "{{tuple.date}}",  y: {{tuple.people}} }
+              {% if not loop.last %} , {% endif %}
+            {% endfor %}
+          ]
+        }
+        ]
+      });
+      chart.render();
     }
-    ]
-  });
-  chart.render();
-}
-</script>
-</head>
+    </script>
+  </head>
 <body>
 <h1>Recent Queue lengths at SARS, Cape Town</h1>
 <h3>Mouse over a bar to view exact time and length</h3>
 <p><b>Note:</b>All data automatically taken from the <a href="http://www.sars.gov.za/Contact/Branch-Finder/Western-Cape/Pages/Cape-Town.aspx">SARS website</a>. Sometimes they publish positive queue lengths for times outside their official opening hours. This does not mean they are open then. Information is provided on a best-effort basis and I guarantee nothing about the accuracy thereof.</p>
-
-
 <div id="chartContainer" style="height: 300px; width: 100%;">
 </div>
 </body>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-38003907-5', 'auto');
+  ga('send', 'pageview');
+</script>
 </html>
